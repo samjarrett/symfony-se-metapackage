@@ -1,0 +1,6 @@
+{
+    "name": "samjarrett/symfony-se-metapackage",
+    "description": "A composer metapackage that is synced with symfony/framework-standard-edition as a metapackage",
+    "type": "metapackage",
+    "license": "MIT",
+    "require": 
