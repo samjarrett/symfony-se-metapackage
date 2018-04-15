@@ -1,15 +1,19 @@
 #!/bin/sh 
+set -e
 
 which jq > /dev/null || (echo "jq not present" && exit 1)
 which curl > /dev/null || (echo "curl not present" && exit 1)
 
 LOCAL_TAGS=$(git tag)
-SYMFONY_TAGS=$(curl https://api.github.com/repos/symfony/symfony-standard/tags | jq -r '.[].name')
+set -x
+SYMFONY_TAGS=$(curl https://api.github.com/repos/symfony/symfony-standard/tags?page=${PAGE:=1} | jq -r '.[].name')
+set +x
 #SYMFONY_TAGS="v3.2.3"
 STARTING_DIR=$(PWD)
 
 for TAG in $SYMFONY_TAGS; do
 	echo "Processing tag: $TAG"
+	rm -rf build
 	if git rev-list $TAG.. >/dev/null 2>&1
 	then
 		echo "Tag $TAG already exists!"
